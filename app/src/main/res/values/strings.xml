@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">RecipesJC</string>
+    <string name="detail_screen">Detail Screen</string>
 </resources>

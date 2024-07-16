@@ -10,10 +10,11 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
+import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
+import ru.itis.recipesjc.R
 
 private val DarkColorScheme = darkColorScheme(
     primary = Purple80,
@@ -54,11 +55,12 @@ fun RecipesJCTheme(
         else -> LightColorScheme
     }
     val view = LocalView.current
+    val statusBarColor = ContextCompat.getColor(LocalContext.current, R.color.statusbar_color)
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            window.statusBarColor = colorScheme.primary.toArgb()
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
+            window.statusBarColor = statusBarColor
         }
     }
 
