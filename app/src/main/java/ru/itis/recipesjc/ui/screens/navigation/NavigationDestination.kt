@@ -1,4 +1,4 @@
-package ru.itis.recipesjc.ui.navigation
+package ru.itis.recipesjc.ui.screens.navigation
 
 import ru.itis.recipesjc.R
 

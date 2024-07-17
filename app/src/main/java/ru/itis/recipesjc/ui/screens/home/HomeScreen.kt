@@ -1,4 +1,4 @@
-package ru.itis.recipesjc.ui.home
+package ru.itis.recipesjc.ui.screens.home
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
