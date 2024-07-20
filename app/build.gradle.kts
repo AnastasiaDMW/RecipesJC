@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
@@ -62,9 +64,12 @@ dependencies {
     testImplementation(libs.junit)
     //Retrofit
     implementation(libs.com.squareup.retrofit2)
-    implementation(libs.com.squareup.retrofit2.converter)
+    implementation(libs.retrofit2.kotlinx.serialization.converter)
+    implementation(libs.kotlinx.serialization.json)
     //Navigation
     implementation(libs.androidx.navigation)
+    //Coil
+    implementation(libs.io.coil)
 
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
