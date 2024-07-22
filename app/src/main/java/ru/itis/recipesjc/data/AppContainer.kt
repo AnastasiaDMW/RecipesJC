@@ -14,11 +14,13 @@ interface AppContainer {
 }
 
 class DefaultAppContainer: AppContainer {
-    private val baseUrl = BASE_URL
 
     private val retrofit: Retrofit = Retrofit.Builder()
-        .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
-        .baseUrl(baseUrl)
+        .addConverterFactory(
+            Json { ignoreUnknownKeys = true }
+                .asConverterFactory("application/json".toMediaType())
+        )
+        .baseUrl(BASE_URL)
         .build()
 
     private val retrofitService: RecipeApiService by lazy {

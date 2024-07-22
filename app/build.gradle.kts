@@ -3,6 +3,7 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.9.10"
 }
 
 android {
@@ -66,6 +67,7 @@ dependencies {
     implementation(libs.com.squareup.retrofit2)
     implementation(libs.retrofit2.kotlinx.serialization.converter)
     implementation(libs.kotlinx.serialization.json)
+    implementation(libs.lifecycle.viewmodel.compose)
     //Navigation
     implementation(libs.androidx.navigation)
     //Coil
