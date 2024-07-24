@@ -1,15 +1,9 @@
 package ru.itis.recipesjc.ui.screens.home
 
-import android.content.Context
 import android.util.Log
-import android.widget.Toast
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -25,13 +19,11 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -49,17 +41,21 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import ru.itis.recipesjc.R
 import ru.itis.recipesjc.data.RecipeUiState
 import ru.itis.recipesjc.model.Recipe
+import ru.itis.recipesjc.ui.screens.navigation.DetailDestination
 import ru.itis.recipesjc.ui.theme.RecipesJCTheme
 
 @Composable
 fun HomeScreen(
-    navigateToDetailScreen: () -> Unit,
+    navController: NavHostController,
     modifier: Modifier = Modifier,
 ) {
     val homeViewModel: HomeViewModel = viewModel(factory = HomeViewModel.Factory)
@@ -76,7 +72,7 @@ fun HomeScreen(
                     modifier = modifier.fillMaxSize()
                 )
                 is RecipeUiState.Success -> HomeBody(
-                    navigateToDetailScreen = navigateToDetailScreen,
+                    navController = navController,
                     recipes = recipeUiState.data,
                     contentPadding = innerPadding,
                     modifier = modifier.fillMaxSize()
@@ -88,7 +84,7 @@ fun HomeScreen(
 
 @Composable
 fun HomeBody(
-    navigateToDetailScreen: () -> Unit,
+    navController: NavHostController,
     recipes: List<Recipe>,
     contentPadding: PaddingValues = PaddingValues(0.dp),
     modifier: Modifier
@@ -120,7 +116,7 @@ fun HomeBody(
             items(items = recipes, key = { recipe -> recipe.id }) {
                 RecipeItem(
                     recipe = it,
-                    navigateToDetailScreen,
+                    navController,
                 )
             }
         }
@@ -130,13 +126,16 @@ fun HomeBody(
 @Composable
 fun RecipeItem(
     recipe: Recipe,
-    navigateToDetailScreen: () -> Unit
+    navController: NavHostController
 ) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(start = 8.dp, end = 8.dp, top = 16.dp, bottom = 8.dp)
-            .clickable { navigateToDetailScreen() }
+            .clickable {
+                Log.d("DATA", "recipeId: ${recipe.id}")
+                navController.navigate(DetailDestination.route + "/${recipe.id}")
+            }
     ) {
         AsyncImage(
             modifier = Modifier
@@ -159,11 +158,17 @@ fun RecipeItem(
 
 @Composable
 fun LoadingScreen(modifier: Modifier = Modifier) {
-    CircularProgressIndicator(
-        modifier = modifier.width(64.dp),
-        color = MaterialTheme.colorScheme.errorContainer,
-        trackColor = MaterialTheme.colorScheme.surface
-    )
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Image(
+            modifier = Modifier.width(100.dp),
+            painter = painterResource(R.drawable.loading),
+            contentDescription = "loading icon"
+        )
+    }
 }
 
 @Composable
@@ -181,7 +186,12 @@ fun ErrorScreen(retryAction: () -> Unit, modifier: Modifier = Modifier) {
             text = "Failed to load",
             modifier = Modifier.padding(16.dp)
         )
-        Button(onClick = retryAction) {
+        Button(
+            onClick = retryAction,
+            colors = ButtonDefaults.buttonColors(
+                containerColor = colorResource(R.color.btn_color)
+            )
+        ) {
             Text(text = "Retry")
         }
     }
@@ -191,7 +201,23 @@ fun ErrorScreen(retryAction: () -> Unit, modifier: Modifier = Modifier) {
 @Composable
 fun HomePreview() {
     RecipesJCTheme {
-        HomeBody({}, listOf(), modifier = Modifier)
+        HomeBody(rememberNavController(), listOf(), modifier = Modifier)
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun LoadingScreenPreview() {
+    RecipesJCTheme {
+        LoadingScreen()
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ErrorScreenPreview() {
+    RecipesJCTheme {
+        ErrorScreen(retryAction = { /*TODO*/ })
     }
 }
 
@@ -204,6 +230,6 @@ fun RecipeItemPreview() {
                 id = 0,
                 title = "Red Lentil Soup with Chicken and Turnips",
                 image = "https://img.spoonacular.com/recipes/715415-312x231.jpg"
-            ),{})
+            ), rememberNavController())
     }
 }

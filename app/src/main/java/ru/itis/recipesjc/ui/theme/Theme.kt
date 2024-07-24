@@ -55,7 +55,7 @@ fun RecipesJCTheme(
         else -> LightColorScheme
     }
     val view = LocalView.current
-    val statusBarColor = ContextCompat.getColor(LocalContext.current, R.color.statusbar_color)
+    val statusBarColor = ContextCompat.getColor(LocalContext.current, R.color.status_bar)
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
