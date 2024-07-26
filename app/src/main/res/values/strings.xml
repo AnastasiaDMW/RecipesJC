@@ -1,4 +1,25 @@
 <resources>
     <string name="app_name">RecipesJC</string>
     <string name="detail_screen">Detail Screen</string>
+    <string name="recipe_img">Recipe image</string>
+    <string name="ic_loading">Loading icon</string>
+    <string name="error_img">Error image</string>
+    <string name="retry_btn">Retry</string>
+    <string name="search">Search</string>
+    <string name="ic_search">Search icon</string>
+    <string name="gluten_free_icon">Gluten free icon</string>
+    <string name="ic_vegan">Vegan icon</string>
+    <string name="ic_cooking_minutes">Cooking minutes icon</string>
+    <string name="ic_health_score">Health score icon</string>
+    <string name="ic_servings">Servings icon</string>
+    <string name="ingredients_tv">Ingredients:</string>
+    <string name="ingredient_img">ingredient image</string>
+    <string name="instruction_tv">Instructions:</string>
+    <string name="servings_tv">Servings:</string>
+    <string name="health_score_tv">Health score:</string>
+    <string name="cooking_minutes_tv">Cooking Minutes:</string>
+    <string name="vegan_tv">Vegan:</string>
+    <string name="gluten_free_tv">Gluten free:</string>
+    <string name="yes_tv">Yes</string>
+    <string name="no_tv">No</string>
 </resources>

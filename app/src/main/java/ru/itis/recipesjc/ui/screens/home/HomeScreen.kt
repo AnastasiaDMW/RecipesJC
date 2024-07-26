@@ -1,6 +1,5 @@
 package ru.itis.recipesjc.ui.screens.home
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -38,6 +37,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -106,7 +106,7 @@ fun HomeBody(
     ) {
         OutlinedTextField(
             trailingIcon = {
-                Icon(imageVector = Icons.Default.Search, contentDescription = "search icon" )
+                Icon(imageVector = Icons.Default.Search, contentDescription = stringResource(R.string.ic_search) )
             },
             maxLines = 1,
             value = searchText,
@@ -118,8 +118,8 @@ fun HomeBody(
                 .padding(start = 8.dp, end = 8.dp, top = 16.dp, bottom = 8.dp),
             shape = RoundedCornerShape(50.dp),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-            label = { Text(text = "Search") },
-            placeholder = { Text(text = "Search") }
+            label = { Text(text = stringResource(R.string.search)) },
+            placeholder = { Text(text = stringResource(R.string.search)) }
         )
         LazyColumn(
             modifier = modifier.padding(8.dp),
@@ -145,7 +145,6 @@ fun RecipeItem(
             .fillMaxWidth()
             .padding(start = 8.dp, end = 8.dp, top = 16.dp, bottom = 8.dp)
             .clickable {
-                Log.d("DATA", "recipeId: ${recipe.id}")
                 navController.navigate(DetailDestination.route + "/${recipe.id}")
             }
     ) {
@@ -158,7 +157,7 @@ fun RecipeItem(
                 .crossfade(true)
                 .build(),
             contentScale = ContentScale.Crop,
-            contentDescription = "recipe image")
+            contentDescription = stringResource(R.string.recipe_img))
         Spacer(modifier = Modifier.height(8.dp))
         Text(
             text = recipe.title,
@@ -178,7 +177,7 @@ fun LoadingScreen(modifier: Modifier = Modifier) {
         Image(
             modifier = Modifier.width(100.dp),
             painter = painterResource(R.drawable.loading),
-            contentDescription = "loading icon"
+            contentDescription = stringResource(R.string.ic_loading)
         )
     }
 }
@@ -192,7 +191,7 @@ fun ErrorScreen(retryAction: () -> Unit, modifier: Modifier = Modifier) {
     ) {
         Image(
             painter = painterResource(R.drawable.ic_connection_error),
-            contentDescription = "error image"
+            contentDescription = stringResource(R.string.error_img)
         )
         Text(
             text = "Failed to load",
@@ -204,7 +203,7 @@ fun ErrorScreen(retryAction: () -> Unit, modifier: Modifier = Modifier) {
                 containerColor = colorResource(R.color.btn_color)
             )
         ) {
-            Text(text = "Retry")
+            Text(text = stringResource(R.string.retry_btn))
         }
     }
 }

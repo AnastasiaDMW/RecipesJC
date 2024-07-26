@@ -5,7 +5,6 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
-import ru.itis.recipesjc.model.entity.DetailRecipeEntity
 import ru.itis.recipesjc.model.entity.ExtendedIngredientEntity
 
 @Dao

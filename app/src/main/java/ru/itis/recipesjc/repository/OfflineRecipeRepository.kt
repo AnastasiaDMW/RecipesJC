@@ -1,6 +1,5 @@
 package ru.itis.recipesjc.repository
 
-import android.util.Log
 import kotlinx.coroutines.flow.first
 import ru.itis.recipesjc.dao.DetailRecipeDao
 import ru.itis.recipesjc.dao.ExtendedIngredientDao
@@ -45,22 +44,22 @@ class OfflineRecipeRepository(
     }
 
     override suspend fun getRecipeInfo(recipeId: Int): DetailRecipeApiResponse {
-        val recipeInfo = detailRecipeDao.getDetailRecipes().first().filter { it.id == recipeId }[0]
-        Log.d("DATA", "recipeInfo: $recipeInfo")
-        val extendedIngredient = extendedIngredientDao.getExtendedIngredient().first().filter { it.detailRecipeId == recipeInfo.id }
-        Log.d("DATA", "extendedIngredient: $extendedIngredient")
-
+        val recipeInfo = detailRecipeDao.getDetailRecipes().first().filter { it.id == recipeId }
+        if (recipeInfo.isEmpty()) {
+            return DetailRecipeApiResponse(id = 0)
+        }
+        val extendedIngredient = extendedIngredientDao.getExtendedIngredient().first().filter { it.detailRecipeId == recipeInfo[0].id }
 
         return DetailRecipeApiResponse(
-            id = recipeInfo.id,
-            vegan = recipeInfo.vegan,
-            glutenFree = recipeInfo.glutenFree,
-            cookingMinutes = recipeInfo.cookingMinutes,
-            healthScore = recipeInfo.healthScore,
-            instructions = recipeInfo.instructions,
-            title = recipeInfo.title,
-            image = recipeInfo.image,
-            servings = recipeInfo.servings,
+            id = recipeInfo[0].id,
+            vegan = recipeInfo[0].vegan,
+            glutenFree = recipeInfo[0].glutenFree,
+            cookingMinutes = recipeInfo[0].cookingMinutes,
+            healthScore = recipeInfo[0].healthScore,
+            instructions = recipeInfo[0].instructions,
+            title = recipeInfo[0].title,
+            image = recipeInfo[0].image,
+            servings = recipeInfo[0].servings,
             extendedIngredientApiResponses = extendedIngredient.map { it.toExtendedIngredientApiResponse() }
         )
     }

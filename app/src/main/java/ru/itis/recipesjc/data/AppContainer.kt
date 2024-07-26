@@ -8,7 +8,6 @@ import ru.itis.recipesjc.Constant.BASE_URL
 import ru.itis.recipesjc.dao.DetailRecipeDao
 import ru.itis.recipesjc.dao.ExtendedIngredientDao
 import ru.itis.recipesjc.dao.RecipeDao
-import ru.itis.recipesjc.database.RecipeDatabase
 import ru.itis.recipesjc.network.RecipeApiService
 import ru.itis.recipesjc.repository.NetworkRecipeRepository
 import ru.itis.recipesjc.repository.OfflineRecipeRepository

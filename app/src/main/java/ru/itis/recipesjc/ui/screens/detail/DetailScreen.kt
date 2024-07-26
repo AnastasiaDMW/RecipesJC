@@ -27,6 +27,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -90,7 +91,7 @@ fun DetailBody(
                 .crossfade(true)
                 .build(),
             contentScale = ContentScale.Crop,
-            contentDescription = "recipe image"
+            contentDescription = stringResource(R.string.recipe_img)
         )
         Spacer(modifier = Modifier.height(16.dp))
         Text(
@@ -106,11 +107,12 @@ fun DetailBody(
             Icon(
                 modifier = Modifier.size(40.dp),
                 painter = painterResource(R.drawable.gluten_free),
-                contentDescription = "gluten free icon"
+                contentDescription = stringResource(R.string.gluten_free_icon)
             )
             Spacer(modifier = Modifier.width(16.dp))
             Text(
-                text = "Gluten free: "+if (recipeInfo.glutenFree) "Yes" else "No",
+                text = stringResource(R.string.gluten_free_tv)+" "+if (recipeInfo.glutenFree) stringResource(
+                    id = R.string.yes_tv) else stringResource(R.string.no_tv),
                 fontSize = 24.sp
             )
         }
@@ -122,11 +124,12 @@ fun DetailBody(
             Icon(
                 modifier = Modifier.size(39.dp),
                 painter = painterResource(R.drawable.vegan),
-                contentDescription = "vegan icon"
+                contentDescription = stringResource(R.string.ic_vegan)
             )
             Spacer(modifier = Modifier.width(16.dp))
             Text(
-                text = "Vegan: "+if (recipeInfo.vegan) "Yes" else "No",
+                text = stringResource(R.string.vegan_tv)+" "+if (recipeInfo.vegan) stringResource(
+                    id = R.string.yes_tv) else stringResource(R.string.no_tv),
                 fontSize = 24.sp
             )
         }
@@ -138,11 +141,11 @@ fun DetailBody(
             Icon(
                 modifier = Modifier.size(39.dp),
                 painter = painterResource(R.drawable.time),
-                contentDescription = "cooking minutes icon"
+                contentDescription = stringResource(R.string.ic_cooking_minutes)
             )
             Spacer(modifier = Modifier.width(16.dp))
             Text(
-                text = "Cooking Minutes: ${recipeInfo.cookingMinutes}",
+                text = stringResource(R.string.cooking_minutes_tv)+" ${recipeInfo.cookingMinutes}",
                 fontSize = 24.sp
             )
         }
@@ -154,11 +157,11 @@ fun DetailBody(
             Icon(
                 modifier = Modifier.size(39.dp),
                 painter = painterResource(R.drawable.health),
-                contentDescription = "health score icon"
+                contentDescription = stringResource(R.string.ic_health_score)
             )
             Spacer(modifier = Modifier.width(16.dp))
             Text(
-                text = "Health score: ${recipeInfo.healthScore}",
+                text = stringResource(R.string.health_score_tv)+" ${recipeInfo.healthScore}",
                 fontSize = 24.sp
             )
         }
@@ -170,22 +173,22 @@ fun DetailBody(
             Icon(
                 modifier = Modifier.size(39.dp),
                 painter = painterResource(R.drawable.serving),
-                contentDescription = "health score icon"
+                contentDescription = stringResource(R.string.ic_servings)
             )
             Spacer(modifier = Modifier.width(16.dp))
             Text(
-                text = "Servings: ${recipeInfo.servings}",
+                text = stringResource(R.string.servings_tv)+" ${recipeInfo.servings}",
                 fontSize = 24.sp
             )
         }
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-            text = "Instructions: ${removeHtmlTags(recipeInfo.instructions)}",
+            text = stringResource(R.string.instruction_tv)+" ${removeHtmlTags(recipeInfo.instructions)}",
             fontSize = 24.sp
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-            text = "Ingredients:",
+            text = stringResource(R.string.ingredients_tv),
             fontWeight = FontWeight.Bold,
             fontSize = 24.sp
         )
@@ -222,7 +225,7 @@ fun IngredientItem(extendedIngredientApiResponse: ExtendedIngredientApiResponse)
                 .height(124.dp)
                 .clip(RoundedCornerShape(16.dp)),
             model = "https://spoonacular.com/cdn/ingredients_100x100/${extendedIngredientApiResponse.image}?apiKey=d119eba3966747da8c6d63fa793d2f6f",
-            contentDescription = "ingredient img",
+            contentDescription = stringResource(R.string.ingredient_img),
             contentScale = ContentScale.Crop
         )
         Spacer(modifier = Modifier.height(8.dp))

@@ -1,7 +1,8 @@
 package ru.itis.recipesjc.ui.screens.detail
 
 import android.app.Application
-import android.util.Log
+import android.content.Context
+import android.net.ConnectivityManager
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -18,8 +19,6 @@ import ru.itis.recipesjc.data.RecipeInfoUIState
 import ru.itis.recipesjc.database.RecipeDatabase
 import ru.itis.recipesjc.repository.NetworkRecipeRepository
 import ru.itis.recipesjc.repository.OfflineRecipeRepository
-import ru.itis.recipesjc.repository.RecipeRepository
-import ru.itis.recipesjc.ui.screens.home.HomeViewModel
 import java.io.IOException
 
 class DetailViewModel(
@@ -31,13 +30,31 @@ class DetailViewModel(
     var detailRecipeUiState: RecipeInfoUIState by mutableStateOf(RecipeInfoUIState.Loading)
         private set
 
+    private fun isNetworkAvailable(context: Context): Boolean {
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkInfo = connectivityManager.activeNetworkInfo
+        return networkInfo != null && networkInfo.isConnected
+    }
+
     fun getRecipeInfo(recipeId: Int) {
         viewModelScope.launch {
             detailRecipeUiState = RecipeInfoUIState.Loading
-            detailRecipeUiState = try {
-                val response = networkRecipeRepository.getRecipeInfo(recipeId)
-                Log.d("DATA", "Response: $response")
-                RecipeInfoUIState.Success(response)
+            val recipeFromDb = offlineRecipeRepository.getRecipeInfo(recipeId)
+            try {
+                if (isNetworkAvailable(application)) {
+                    val recipesFromApi = networkRecipeRepository.getRecipeInfo(recipeId)
+                    if (recipeFromDb.id != recipeId) {
+                        offlineRecipeRepository.insertDetailRecipe(recipesFromApi)
+                        offlineRecipeRepository.insertExtendedInstructions(recipesFromApi)
+
+                        detailRecipeUiState = RecipeInfoUIState.Success(recipesFromApi)
+                    }
+                    else {
+                        detailRecipeUiState = RecipeInfoUIState.Success(recipeFromDb)
+                    }
+                } else {
+                    detailRecipeUiState = RecipeInfoUIState.Success(recipeFromDb)
+                }
             } catch (e: IOException) {
                 RecipeInfoUIState.Error
             } catch (e: HttpException) {
