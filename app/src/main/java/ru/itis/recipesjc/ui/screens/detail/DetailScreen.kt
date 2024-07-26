@@ -35,12 +35,8 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import ru.itis.recipesjc.R
 import ru.itis.recipesjc.data.RecipeInfoUIState
-import ru.itis.recipesjc.model.AnalyzedInstructionApiResponse
-import ru.itis.recipesjc.model.DetailRecipe
-import ru.itis.recipesjc.model.DetailRecipeApiResponse
-import ru.itis.recipesjc.model.EquipmentApiResponse
-import ru.itis.recipesjc.model.ExtendedIngredientApiResponse
-import ru.itis.recipesjc.model.StepApiResponse
+import ru.itis.recipesjc.model.response.DetailRecipeApiResponse
+import ru.itis.recipesjc.model.response.ExtendedIngredientApiResponse
 import ru.itis.recipesjc.ui.screens.home.ErrorScreen
 import ru.itis.recipesjc.ui.screens.home.LoadingScreen
 import ru.itis.recipesjc.ui.theme.RecipesJCTheme
@@ -76,7 +72,7 @@ fun DetailScreen(recipeId: Int?, detailViewModel: DetailViewModel, modifier: Mod
 
 @Composable
 fun DetailBody(
-    recipeInfo: DetailRecipe,
+    recipeInfo: DetailRecipeApiResponse,
     contentPadding: PaddingValues,
     modifier: Modifier = Modifier
 ) {
@@ -205,80 +201,6 @@ fun DetailBody(
             }
         }
         Spacer(modifier = Modifier.height(8.dp))
-        Text(
-            text = "Steps:",
-            fontWeight = FontWeight.Bold,
-            fontSize = 24.sp
-        )
-        for (step in recipeInfo.analyzedInstructions[0].steps) {
-            Spacer(modifier = Modifier.height(8.dp))
-            StepBody(step = step)
-        }
-    }
-}
-
-@Composable
-fun StepBody(step: StepApiResponse) {
-    Column(
-        modifier = Modifier.fillMaxWidth(),
-        verticalArrangement = Arrangement.Center
-    ) {
-        Text(
-            text = "Шаг ${step.number}",
-            fontSize = 24.sp,
-            fontWeight = FontWeight.Bold
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(
-            text = step.step,
-            fontSize = 18.sp
-        )
-        LazyRow {
-            items(
-                items = step.equipmentApiResponses,
-                key = { equipment -> equipment.id }
-            ) {
-                EquipmentItem(it)
-            }
-        }
-    }
-}
-
-@Composable
-fun EquipmentItem(equipmentApiResponse: EquipmentApiResponse) {
-    Column(
-        modifier = Modifier
-            .width(200.dp)
-            .padding(start = 8.dp, end = 8.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-//        Image(
-//            modifier = Modifier
-//                .height(132.dp)
-//                .clip(RoundedCornerShape(16.dp)),
-//            contentScale = ContentScale.FillBounds,
-//            painter = painterResource(R.drawable.abokado),
-//            contentDescription = "avocado"
-//        )
-        AsyncImage(
-            modifier = Modifier
-                .height(132.dp)
-                .clip(RoundedCornerShape(16.dp)),
-            model = equipmentApiResponse.image,
-            contentDescription = "ingredient img",
-            contentScale = ContentScale.Crop
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(
-            text = equipmentApiResponse.name.replaceFirstChar {
-                if (it.isLowerCase()) it.titlecase(
-                    Locale.getDefault()
-                ) else it.toString()
-            },
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Bold
-        )
     }
 }
 
@@ -295,14 +217,6 @@ fun IngredientItem(extendedIngredientApiResponse: ExtendedIngredientApiResponse)
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-//        Image(
-//            modifier = Modifier
-//                .height(132.dp)
-//                .clip(RoundedCornerShape(16.dp)),
-//            contentScale = ContentScale.FillBounds,
-//            painter = painterResource(R.drawable.abokado),
-//            contentDescription = "avocado"
-//        )
         AsyncImage(
             modifier = Modifier
                 .height(124.dp)
@@ -333,7 +247,7 @@ fun IngredientItem(extendedIngredientApiResponse: ExtendedIngredientApiResponse)
 fun DetailBodyPreview() {
     RecipesJCTheme {
         DetailBody(
-            recipeInfo = DetailRecipe(
+            recipeInfo = DetailRecipeApiResponse(
                 id = 0,
                 title = "Грибная запеканка",
                 vegan = false,
@@ -345,24 +259,8 @@ fun DetailBodyPreview() {
                     ExtendedIngredientApiResponse(0, "", "avocado",5.0,"servings"),
                     ExtendedIngredientApiResponse(1, "", "avocado",5.0,"servings")
                 ),
-                analyzedInstructions = listOf(AnalyzedInstructionApiResponse(steps = listOf()))
             ),
             contentPadding = PaddingValues(10.dp)
-        )
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun StepBodyPreview() {
-    RecipesJCTheme {
-        StepBody(step =
-            StepApiResponse(
-                number = 1,
-                step = "dsfdsfdsfdsfsdf",
-                ingredientApiResponses = listOf(),
-                equipmentApiResponses = listOf()
-            )
         )
     }
 }

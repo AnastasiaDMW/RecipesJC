@@ -1,7 +1,6 @@
 package ru.itis.recipesjc.data
 
-import ru.itis.recipesjc.model.Recipe
-import ru.itis.recipesjc.model.RecipeResponse
+import ru.itis.recipesjc.model.entity.Recipe
 
 sealed interface RecipeUiState {
     data class Success(val data: List<Recipe>): RecipeUiState

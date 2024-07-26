@@ -1,4 +1,4 @@
-package ru.itis.recipesjc.model
+package ru.itis.recipesjc.model.response
 
 import kotlinx.serialization.Serializable
 
@@ -13,6 +13,5 @@ data class DetailRecipeApiResponse(
     val title: String = "",
     val image: String = "",
     val servings: Int = 0,
-    val extendedIngredientApiResponses: List<ExtendedIngredientApiResponse> = emptyList(),
-    val analyzedInstructions: List<AnalyzedInstructionApiResponse> = emptyList()
+    val extendedIngredientApiResponses: List<ExtendedIngredientApiResponse> = emptyList()
 )

@@ -5,10 +5,10 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
-import ru.itis.recipesjc.model.Recipe
+import ru.itis.recipesjc.model.entity.Recipe
 
 @Dao
-interface RecipeDao {
+interface RecipeDao{
 
     @Query("SELECT * FROM recipes")
     fun getRecipes(): Flow<List<Recipe>>

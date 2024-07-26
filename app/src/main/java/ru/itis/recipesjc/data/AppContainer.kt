@@ -5,6 +5,8 @@ import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
 import ru.itis.recipesjc.Constant.BASE_URL
+import ru.itis.recipesjc.dao.DetailRecipeDao
+import ru.itis.recipesjc.dao.ExtendedIngredientDao
 import ru.itis.recipesjc.dao.RecipeDao
 import ru.itis.recipesjc.database.RecipeDatabase
 import ru.itis.recipesjc.network.RecipeApiService
@@ -18,7 +20,9 @@ interface AppContainer {
 }
 
 class DefaultAppContainer(
-    private val recipeDao: RecipeDao
+    private val recipeDao: RecipeDao,
+    private val detailRecipeDao: DetailRecipeDao,
+    private val extendedIngredientDao: ExtendedIngredientDao
 ): AppContainer {
 
     private val retrofit: Retrofit = Retrofit.Builder()
@@ -38,6 +42,6 @@ class DefaultAppContainer(
     }
 
     override val offlineRecipeRepository: OfflineRecipeRepository by lazy {
-        OfflineRecipeRepository(recipeDao)
+        OfflineRecipeRepository(recipeDao, detailRecipeDao, extendedIngredientDao)
     }
 }

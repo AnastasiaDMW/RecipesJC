@@ -10,6 +10,8 @@ class RecipeApplication: Application() {
     override fun onCreate() {
         super.onCreate()
         val recipeDao = RecipeDatabase.getRecipeDao(this)
-        container = DefaultAppContainer(recipeDao)
+        val detailRecipeDao = RecipeDatabase.getDetailRecipeDao(this)
+        val extendedIngredientDao = RecipeDatabase.getExtendedIngredientDao(this)
+        container = DefaultAppContainer(recipeDao, detailRecipeDao, extendedIngredientDao)
     }
 }

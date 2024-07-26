@@ -1,4 +1,4 @@
-package ru.itis.recipesjc.model
+package ru.itis.recipesjc.model.response
 
 import kotlinx.serialization.Serializable
 

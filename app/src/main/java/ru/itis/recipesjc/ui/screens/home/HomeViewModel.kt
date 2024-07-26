@@ -3,9 +3,6 @@ package ru.itis.recipesjc.ui.screens.home
 import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
-import android.util.Log
-import android.widget.Toast
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -21,10 +18,8 @@ import ru.itis.recipesjc.RecipeApplication
 import ru.itis.recipesjc.data.DefaultAppContainer
 import ru.itis.recipesjc.data.RecipeUiState
 import ru.itis.recipesjc.database.RecipeDatabase
-import ru.itis.recipesjc.model.Recipe
 import ru.itis.recipesjc.repository.NetworkRecipeRepository
 import ru.itis.recipesjc.repository.OfflineRecipeRepository
-import ru.itis.recipesjc.repository.RecipeRepository
 import java.io.IOException
 
 class HomeViewModel(

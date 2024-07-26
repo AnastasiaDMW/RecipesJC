@@ -28,7 +28,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -50,8 +49,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import ru.itis.recipesjc.R
 import ru.itis.recipesjc.data.RecipeUiState
-import ru.itis.recipesjc.model.Recipe
-import ru.itis.recipesjc.model.RecipeApiResponse
+import ru.itis.recipesjc.model.entity.Recipe
 import ru.itis.recipesjc.ui.screens.navigation.DetailDestination
 import ru.itis.recipesjc.ui.theme.RecipesJCTheme
 
