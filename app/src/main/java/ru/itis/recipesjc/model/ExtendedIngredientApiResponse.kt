@@ -3,7 +3,7 @@ package ru.itis.recipesjc.model
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ExtendedIngredient(
+data class ExtendedIngredientApiResponse(
     val id: Int,
     val image: String,
     val original: String,

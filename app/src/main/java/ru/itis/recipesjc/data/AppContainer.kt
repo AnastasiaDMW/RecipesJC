@@ -5,15 +5,21 @@ import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
 import ru.itis.recipesjc.Constant.BASE_URL
+import ru.itis.recipesjc.dao.RecipeDao
+import ru.itis.recipesjc.database.RecipeDatabase
 import ru.itis.recipesjc.network.RecipeApiService
 import ru.itis.recipesjc.repository.NetworkRecipeRepository
+import ru.itis.recipesjc.repository.OfflineRecipeRepository
 import ru.itis.recipesjc.repository.RecipeRepository
 
 interface AppContainer {
-    val recipeRepository: RecipeRepository
+    val networkRecipeRepository: RecipeRepository
+    val offlineRecipeRepository: RecipeRepository
 }
 
-class DefaultAppContainer: AppContainer {
+class DefaultAppContainer(
+    private val recipeDao: RecipeDao
+): AppContainer {
 
     private val retrofit: Retrofit = Retrofit.Builder()
         .addConverterFactory(
@@ -27,7 +33,11 @@ class DefaultAppContainer: AppContainer {
         retrofit.create(RecipeApiService::class.java)
     }
 
-    override val recipeRepository: RecipeRepository by lazy {
+    override val networkRecipeRepository: NetworkRecipeRepository by lazy {
         NetworkRecipeRepository(retrofitService)
+    }
+
+    override val offlineRecipeRepository: OfflineRecipeRepository by lazy {
+        OfflineRecipeRepository(recipeDao)
     }
 }

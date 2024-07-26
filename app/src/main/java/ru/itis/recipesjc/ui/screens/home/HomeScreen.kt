@@ -25,8 +25,10 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -41,7 +43,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
@@ -50,6 +51,7 @@ import coil.request.ImageRequest
 import ru.itis.recipesjc.R
 import ru.itis.recipesjc.data.RecipeUiState
 import ru.itis.recipesjc.model.Recipe
+import ru.itis.recipesjc.model.RecipeApiResponse
 import ru.itis.recipesjc.ui.screens.navigation.DetailDestination
 import ru.itis.recipesjc.ui.theme.RecipesJCTheme
 
@@ -90,6 +92,15 @@ fun HomeBody(
     modifier: Modifier
 ) {
     var searchText by remember { mutableStateOf("") }
+    val filteredRecipes = remember { mutableStateOf(recipes) }
+
+    LaunchedEffect(searchText) {
+        filteredRecipes.value = if (searchText.isNotEmpty()) {
+            recipes.filter { it.title.contains(searchText, ignoreCase = true) }
+        } else {
+            recipes
+        }
+    }
     Column(
         modifier = Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.Center,
@@ -99,8 +110,11 @@ fun HomeBody(
             trailingIcon = {
                 Icon(imageVector = Icons.Default.Search, contentDescription = "search icon" )
             },
+            maxLines = 1,
             value = searchText,
-            onValueChange = { searchText = it },
+            onValueChange = {
+                searchText = it
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 8.dp, end = 8.dp, top = 16.dp, bottom = 8.dp),
@@ -113,7 +127,7 @@ fun HomeBody(
             modifier = modifier.padding(8.dp),
             contentPadding = contentPadding
         ) {
-            items(items = recipes, key = { recipe -> recipe.id }) {
+            items(items = filteredRecipes.value, key = { recipe -> recipe.id }) {
                 RecipeItem(
                     recipe = it,
                     navController,

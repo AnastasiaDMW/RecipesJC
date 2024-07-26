@@ -1,6 +1,9 @@
 package ru.itis.recipesjc.model
 
-data class DetailRecipe(
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class DetailRecipeApiResponse(
     val id: Int,
     val vegan: Boolean = false,
     val glutenFree: Boolean = false,

@@ -39,7 +39,7 @@ class DetailViewModel(
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
                 val application = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as RecipeApplication)
-                val recipeRepository = application.container.recipeRepository
+                val recipeRepository = application.container.networkRecipeRepository
                 DetailViewModel(recipeRepository)
             }
         }

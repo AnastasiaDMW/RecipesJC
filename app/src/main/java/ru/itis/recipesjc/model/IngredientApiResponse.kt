@@ -3,7 +3,7 @@ package ru.itis.recipesjc.model
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Equipment(
+data class IngredientApiResponse(
     val id: Int,
     val name: String,
     val image: String

@@ -35,11 +35,12 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import ru.itis.recipesjc.R
 import ru.itis.recipesjc.data.RecipeInfoUIState
-import ru.itis.recipesjc.model.AnalyzedInstruction
+import ru.itis.recipesjc.model.AnalyzedInstructionApiResponse
 import ru.itis.recipesjc.model.DetailRecipe
-import ru.itis.recipesjc.model.Equipment
-import ru.itis.recipesjc.model.ExtendedIngredient
-import ru.itis.recipesjc.model.Step
+import ru.itis.recipesjc.model.DetailRecipeApiResponse
+import ru.itis.recipesjc.model.EquipmentApiResponse
+import ru.itis.recipesjc.model.ExtendedIngredientApiResponse
+import ru.itis.recipesjc.model.StepApiResponse
 import ru.itis.recipesjc.ui.screens.home.ErrorScreen
 import ru.itis.recipesjc.ui.screens.home.LoadingScreen
 import ru.itis.recipesjc.ui.theme.RecipesJCTheme
@@ -197,7 +198,7 @@ fun DetailBody(
             modifier = Modifier.fillMaxWidth()
         ) {
             items(
-                items = recipeInfo.extendedIngredients,
+                items = recipeInfo.extendedIngredientApiResponses,
                 key = { ingredient -> ingredient.id }
             ) {
                 IngredientItem(it)
@@ -217,7 +218,7 @@ fun DetailBody(
 }
 
 @Composable
-fun StepBody(step: Step) {
+fun StepBody(step: StepApiResponse) {
     Column(
         modifier = Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.Center
@@ -234,7 +235,7 @@ fun StepBody(step: Step) {
         )
         LazyRow {
             items(
-                items = step.equipment,
+                items = step.equipmentApiResponses,
                 key = { equipment -> equipment.id }
             ) {
                 EquipmentItem(it)
@@ -244,7 +245,7 @@ fun StepBody(step: Step) {
 }
 
 @Composable
-fun EquipmentItem(equipment: Equipment) {
+fun EquipmentItem(equipmentApiResponse: EquipmentApiResponse) {
     Column(
         modifier = Modifier
             .width(200.dp)
@@ -264,13 +265,13 @@ fun EquipmentItem(equipment: Equipment) {
             modifier = Modifier
                 .height(132.dp)
                 .clip(RoundedCornerShape(16.dp)),
-            model = equipment.image,
+            model = equipmentApiResponse.image,
             contentDescription = "ingredient img",
             contentScale = ContentScale.Crop
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-            text = equipment.name.replaceFirstChar {
+            text = equipmentApiResponse.name.replaceFirstChar {
                 if (it.isLowerCase()) it.titlecase(
                     Locale.getDefault()
                 ) else it.toString()
@@ -286,7 +287,7 @@ fun removeHtmlTags(text: String): String {
 }
 
 @Composable
-fun IngredientItem(extendedIngredient: ExtendedIngredient) {
+fun IngredientItem(extendedIngredientApiResponse: ExtendedIngredientApiResponse) {
     Column(
         modifier = Modifier
             .width(200.dp)
@@ -306,13 +307,13 @@ fun IngredientItem(extendedIngredient: ExtendedIngredient) {
             modifier = Modifier
                 .height(124.dp)
                 .clip(RoundedCornerShape(16.dp)),
-            model = "https://spoonacular.com/cdn/ingredients_100x100/${extendedIngredient.image}?apiKey=d119eba3966747da8c6d63fa793d2f6f",
+            model = "https://spoonacular.com/cdn/ingredients_100x100/${extendedIngredientApiResponse.image}?apiKey=d119eba3966747da8c6d63fa793d2f6f",
             contentDescription = "ingredient img",
             contentScale = ContentScale.Crop
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-            text = extendedIngredient.original.replaceFirstChar {
+            text = extendedIngredientApiResponse.original.replaceFirstChar {
                 if (it.isLowerCase()) it.titlecase(
                     Locale.getDefault()
                 ) else it.toString()
@@ -322,7 +323,7 @@ fun IngredientItem(extendedIngredient: ExtendedIngredient) {
         )
         Spacer(modifier = Modifier.height(2.dp))
         Text(
-            text = "${extendedIngredient.amount} ${extendedIngredient.unit}"
+            text = "${extendedIngredientApiResponse.amount} ${extendedIngredientApiResponse.unit}"
         )
     }
 }
@@ -340,11 +341,11 @@ fun DetailBodyPreview() {
                 cookingMinutes = 55,
                 healthScore = 100,
                 instructions = "Saute the onions in the EVOO, adding the garlic after a couple of minutes; cook until the onions are translucent. </li><li>Add the whole bag of asparagus and cover everything with the broth. </li><li>Season with salt and pepper and a pinch of red pepper flakes, if using.",
-                extendedIngredients = listOf(
-                    ExtendedIngredient(0, "", "avocado",5.0,"servings"),
-                    ExtendedIngredient(1, "", "avocado",5.0,"servings")
+                extendedIngredientApiResponses = listOf(
+                    ExtendedIngredientApiResponse(0, "", "avocado",5.0,"servings"),
+                    ExtendedIngredientApiResponse(1, "", "avocado",5.0,"servings")
                 ),
-                analyzedInstructions = listOf(AnalyzedInstruction(steps = listOf()))
+                analyzedInstructions = listOf(AnalyzedInstructionApiResponse(steps = listOf()))
             ),
             contentPadding = PaddingValues(10.dp)
         )
@@ -356,11 +357,11 @@ fun DetailBodyPreview() {
 fun StepBodyPreview() {
     RecipesJCTheme {
         StepBody(step =
-            Step(
+            StepApiResponse(
                 number = 1,
                 step = "dsfdsfdsfdsfsdf",
-                ingredients = listOf(),
-                equipment = listOf()
+                ingredientApiResponses = listOf(),
+                equipmentApiResponses = listOf()
             )
         )
     }
@@ -370,6 +371,6 @@ fun StepBodyPreview() {
 @Composable
 fun ingredientItemPreview() {
     RecipesJCTheme {
-        IngredientItem(extendedIngredient = ExtendedIngredient(0, "", "avocado",5.0,"servings"))
+        IngredientItem(extendedIngredientApiResponse = ExtendedIngredientApiResponse(0, "", "avocado",5.0,"servings"))
     }
 }

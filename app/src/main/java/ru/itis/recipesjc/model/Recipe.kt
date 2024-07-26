@@ -1,17 +1,12 @@
 package ru.itis.recipesjc.model
 
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
-@Serializable
-data class RecipeResponse(
-    @SerialName("results")
-    val recipes: List<Recipe>
-)
-
-@Serializable
+@Entity(tableName = "recipes")
 data class Recipe(
-    @SerialName("id") val id: Int,
-    @SerialName("title") val title: String,
-    @SerialName("image") val image: String,
+    @PrimaryKey(autoGenerate = true)
+    val id: Int,
+    val title: String,
+    val image: String
 )
