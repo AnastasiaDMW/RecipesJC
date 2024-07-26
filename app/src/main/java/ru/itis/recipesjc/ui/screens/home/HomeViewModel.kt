@@ -82,7 +82,9 @@ class HomeViewModel(
             initializer {
                 val application = (this[APPLICATION_KEY] as RecipeApplication)
                 val recipeDao = RecipeDatabase.getRecipeDao(application.applicationContext)
-                val appContainer = DefaultAppContainer(recipeDao)
+                val detailRecipeDao = RecipeDatabase.getDetailRecipeDao(application.applicationContext)
+                val extendedIngredientDao = RecipeDatabase.getExtendedIngredientDao(application.applicationContext)
+                val appContainer = DefaultAppContainer(recipeDao, detailRecipeDao, extendedIngredientDao)
                 HomeViewModel(
                     application,
                     appContainer.networkRecipeRepository,

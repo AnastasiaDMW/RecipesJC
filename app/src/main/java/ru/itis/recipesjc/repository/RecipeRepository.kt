@@ -1,6 +1,5 @@
 package ru.itis.recipesjc.repository
 
-import ru.itis.recipesjc.model.entity.DetailRecipe
 import ru.itis.recipesjc.model.entity.Recipe
 import ru.itis.recipesjc.model.response.DetailRecipeApiResponse
 
