@@ -2,8 +2,9 @@ package ru.itis.recipesjc.model.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import ru.itis.recipesjc.Constant.DETAIL_RECIPE
 
-@Entity(tableName = "detail_recipes")
+@Entity(tableName = DETAIL_RECIPE)
 data class DetailRecipeEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
