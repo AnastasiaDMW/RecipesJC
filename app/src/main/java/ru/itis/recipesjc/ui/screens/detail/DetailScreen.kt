@@ -187,23 +187,25 @@ fun DetailBody(
             fontSize = 24.sp
         )
         Spacer(modifier = Modifier.height(8.dp))
-        Text(
-            text = stringResource(R.string.ingredients_tv),
-            fontWeight = FontWeight.Bold,
-            fontSize = 24.sp
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        LazyRow(
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            items(
-                items = recipeInfo.extendedIngredientApiResponses,
-                key = { ingredient -> ingredient.id }
+        if (recipeInfo.extendedIngredientApiResponses.isNotEmpty()) {
+            Text(
+                text = stringResource(R.string.ingredients_tv),
+                fontWeight = FontWeight.Bold,
+                fontSize = 24.sp
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            LazyRow(
+                modifier = Modifier.fillMaxWidth()
             ) {
-                IngredientItem(it)
+                items(
+                    items = recipeInfo.extendedIngredientApiResponses,
+                    key = { ingredient -> ingredient.id }
+                ) {
+                    IngredientItem(it)
+                }
             }
+            Spacer(modifier = Modifier.height(8.dp))
         }
-        Spacer(modifier = Modifier.height(8.dp))
     }
 }
 

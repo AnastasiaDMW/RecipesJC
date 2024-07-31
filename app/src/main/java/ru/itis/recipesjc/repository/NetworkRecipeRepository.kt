@@ -1,18 +1,29 @@
 package ru.itis.recipesjc.repository
 
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import ru.itis.recipesjc.model.entity.Recipe
 import ru.itis.recipesjc.model.response.DetailRecipeApiResponse
 import ru.itis.recipesjc.model.response.RecipeApiResponse
 import ru.itis.recipesjc.network.RecipeApiService
 
 class NetworkRecipeRepository(
-    private val recipeApiService: RecipeApiService
+    private val recipeApiService: RecipeApiService,
+    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ): RecipeRepository {
     override suspend fun getRecipes(): List<Recipe> {
-        val recipeApiResponses = recipeApiService.getRecipes().recipes
-        return recipeApiResponses.map { it.toRecipe() }
+        return withContext(ioDispatcher) {
+            val recipeApiResponses = recipeApiService.getRecipes().recipes
+            recipeApiResponses.map { it.toRecipe() }
+        }
+
     }
-    override suspend fun getRecipeInfo(recipeId: Int): DetailRecipeApiResponse = recipeApiService.getRecipeInfo(recipeId)
+    override suspend fun getRecipeInfo(recipeId: Int): DetailRecipeApiResponse {
+        return withContext(ioDispatcher) {
+            recipeApiService.getRecipeInfo(recipeId)
+        }
+    }
 
     private fun RecipeApiResponse.toRecipe(): Recipe =
         Recipe(
