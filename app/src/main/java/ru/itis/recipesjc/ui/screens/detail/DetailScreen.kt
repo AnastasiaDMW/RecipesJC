@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import ru.itis.recipesjc.Constant.API_KEY
 import ru.itis.recipesjc.R
 import ru.itis.recipesjc.data.RecipeInfoUIState
 import ru.itis.recipesjc.model.response.DetailRecipeApiResponse
@@ -226,7 +227,7 @@ fun IngredientItem(extendedIngredientApiResponse: ExtendedIngredientApiResponse)
             modifier = Modifier
                 .height(124.dp)
                 .clip(RoundedCornerShape(16.dp)),
-            model = "https://spoonacular.com/cdn/ingredients_100x100/${extendedIngredientApiResponse.image}?apiKey=d119eba3966747da8c6d63fa793d2f6f",
+            model = "https://spoonacular.com/cdn/ingredients_100x100/${extendedIngredientApiResponse.image}?apiKey=$API_KEY",
             contentDescription = stringResource(R.string.ingredient_img),
             contentScale = ContentScale.Crop
         )
